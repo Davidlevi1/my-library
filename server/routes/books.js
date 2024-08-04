@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const Book = require('../models/book');
+const auth = require('../middleware/auth');
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
     const books = await Book.find();
     res.json(books);
@@ -11,7 +12,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
   const book = new Book({
     title: req.body.title,
     author: req.body.author,

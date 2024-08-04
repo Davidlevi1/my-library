@@ -5,9 +5,8 @@ const port = process.env.PORT || 5000;
 
 app.use(express.json());
 
-mongoose.connect('mongodb://localhost:27017/my-library', {
+mongoose.connect('mongodb://127.0.0.1:27017/my-library', {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
 });
 
 const db = mongoose.connection;
@@ -16,7 +15,9 @@ db.once('open', () => {
   console.log('Connected to MongoDB');
 });
 
+const authRouter = require('./routes/auth');
 const booksRouter = require('./routes/books');
+app.use('/api/auth', authRouter);
 app.use('/api/books', booksRouter);
 
 app.listen(port, () => {
